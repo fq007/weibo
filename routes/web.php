@@ -13,3 +13,15 @@ Route::get("signup","UserController@create")->name('signup');
  */
 
 Route::resource('user','UserController');
+
+/*
+ * 登录 登出 start
+ */
+
+Route::get('login','SessionsController@create')->name('login');
+Route::post('login','SessionsController@store')->name('login');
+Route::get('logout','SessionsController@destroy')->name('logout');
+
+/*
+ * 登录 登出 end
+ */
