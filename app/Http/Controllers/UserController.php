@@ -24,19 +24,18 @@ class UserController extends Controller
      * 用户注册
      */
     public function store(Request $request){
-//        $this->validate($request, [
-//            'name' => 'required|unique:users|max:50',
-//            'email' => 'required|email|unique:users|max:255',
-//            'password' => 'required|confirmed|min:6'
-//        ]);
-//        return;
-        dump($request);
-        die;
+        $data = $request->all();
         $this->validate($request,[
-            'name'     => 'required|unique:user|max:50',
+            'name'     => 'required|unique:users|max:50',
             'email'    => 'required|email|unique:users|max:255',
             'password' => 'required|confirmed|min:6'
         ]);
-        return;
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password)
+        ]);
+        session()->flash('success','欢迎，您将在这里开启一段新的旅程~');
+        return redirect()->route('user.show',[$user]);
     }
 }
