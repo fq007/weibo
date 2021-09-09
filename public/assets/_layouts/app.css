@@ -7,6 +7,7 @@ footer {
     color: #777;
     font-size: 13px;
     font-weight: bold;
+}
 a {
     color: #555;
 }
@@ -19,4 +20,13 @@ img.brand-icon {
     width: 17px;
     height: 17px;
 }
+/* Users edit */
+
+.gravatar_edit {
+    margin: 15px auto;
+    text-align: center;
+}
+.gravatar {
+    float: none;
+    max-width: 100px;
 }
