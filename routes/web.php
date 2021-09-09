@@ -11,3 +11,5 @@ Route::get("signup","UserController@create")->name('signup');
 /*
  * 注册 end
  */
+
+Route::resource('user','UserController');
