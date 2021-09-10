@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use App\Models\Status;
 
 class User extends Authenticatable
 {
@@ -58,5 +59,10 @@ class User extends Authenticatable
         static::creating(function ($user){
            $user->activation_token = Str::random(10);
         });
+    }
+
+    //一对多
+    public function statuses(){
+        $this->hasMany(Status::class);
     }
 }
