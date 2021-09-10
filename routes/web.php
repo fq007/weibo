@@ -47,3 +47,6 @@ Route::post('password/reset','PasswordController@reset')->name('password.update'
  */
 
 Route::get('test','TestController@test');
+
+Route::get('/users/{user}/followings','UserController@followings')->name('user.followings');
+Route::get('/users/{user}/follower','UserController@followers')->name('user.follower');
