@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -47,5 +48,15 @@ class User extends Authenticatable
     public function gravatar($size = '100'){
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "https://img2.baidu.com/it/u=3355464299,584008140&fm=26&fmt=auto&gp=0.jpg";
+    }
+
+    /*
+     * 在用户注册时生成激活令牌
+     */
+    public static function boot(){
+        parent::boot();
+        static::creating(function ($user){
+           $user->activation_token = Str::random(10);
+        });
     }
 }

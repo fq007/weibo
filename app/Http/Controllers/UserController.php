@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth',[
-            'except' => ['show','create','store','index']
+            'except' => ['show','create','store','index','confirmEmail']
         ]);
         $this->middleware('guest',[
            'only' => ['create']
@@ -53,11 +55,12 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
-        Auth::login($user);
+//        Auth::login($user);
+        $this->sendEmailConfirmationTo($user);
         session()->flash('success','欢迎，您将在这里开启一段新的旅程~');
         return redirect()->route('user.show',[$user]);
     }
-    
+
     /*
      * 用户编辑操作
      */
@@ -92,5 +95,33 @@ class UserController extends Controller
         $user->delete();
         session()->flash('success','成功删除用户');
         return back();
+    }
+
+    /*
+     * 发送账号激活邮件
+     */
+    public function sendEmailConfirmationTo($user){
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'Fengqian@163.com';
+        $name = 'Summer';
+        $to   = $user->email;
+        $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+    /*
+     * 激活功能
+     */
+    public function confirmEmail($token){
+        $user = User::where('activation_token',$token)->firstOrFail();
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+        Auth::login($user);
+        session()->flash('success','恭喜你，激活成功');
+        return redirect()->route('user.show',[$user]);
     }
 }

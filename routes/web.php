@@ -8,6 +8,7 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
  * 注册  start
  */
 Route::get("signup","UserController@create")->name('signup');
+Route::get('signup/confirm/{token}',"UserController@confirmEmail")->name('confirm_email');
 /*
  * 注册 end
  */
