@@ -12,6 +12,22 @@ use Illuminate\Support\Facades\Mail;
 
 class PasswordController extends Controller
 {
+//    public function __construct()
+//    {
+//        $this->middleware('throttle:2,1', [
+//            'only' => ['showLinkRequestForm']
+//        ]);
+//    }
+    public function __construct(){
+        //限流邮件发送 1分钟只能请求两次
+        $this->middleware('throttle:2,1',[
+            'only' => ['showLinkRequestForm']
+        ]);
+        //发送密码重置邮件限流，10分钟只能尝试3次
+        $this->middleware('throttle:3,10', [
+            'only' => ['sendResetLinkEmail']
+        ]);
+    }
     /*
      * 展示邮件发送页面
      */
