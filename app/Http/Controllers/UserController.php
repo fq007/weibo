@@ -42,7 +42,10 @@ class UserController extends Controller
      * 用户信息展示
      */
     public function show(User $user){
-        return view('users.show',compact('user'));
+        dump($user->statuses());
+        die;
+        $statuses = $user->statuses()->orderBy('created_at','desc')->paginate(30);
+        return view('users.show',compact('user','statuses'));
     }
 
     /*
