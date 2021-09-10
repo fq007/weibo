@@ -45,3 +45,5 @@ Route::post('password/reset','PasswordController@reset')->name('password.update'
 /*
  * 重置密码 end
  */
+
+Route::get('test','TestController@test');

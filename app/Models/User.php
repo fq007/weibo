@@ -63,21 +63,21 @@ class User extends Authenticatable
 
     //一对多
     public function statuses(){
-        $this->hasMany(Status::class);
+        return $this->hasMany(Status::class);
     }
 
     /*
      * 粉丝和用户 多对多  获取粉丝列表
      */
     public function followers(){
-        $this->belongsToMany(User::class,'followers','user_id','follower_id');
+        return $this->belongsToMany(User::class,'followers','user_id','follower_id');
     }
 
     /*
      * 粉丝和用户 多对多 获取用户关注列表
      */
     public function followings(){
-        $this->belongsToMany(User::class,'followers','follower_id','user_id');
+        return $this->belongsToMany(User::class,'followers','follower_id','user_id');
     }
 
     /*
